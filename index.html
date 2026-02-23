@@ -2,165 +2,128 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>KoxLand</title>
-
+<title>Koxland GUI</title>
 <style>
-html, body {
+  body, html {
     margin: 0;
     padding: 0;
-    height: 100%;
-}
-
-#wrapper {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
     overflow: hidden;
-}
-
-/* Każda warstwa ma dokładnie ten sam rozmiar */
-.layer {
+    height: 100%;
+    width: 100%;
+  }
+  #wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  #wrapper img {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
     cursor: pointer;
-}
-
-/* Tło nie ma kursora */
-#background {
-    cursor: default;
-}
-
-#toast {
+  }
+  /* Toast */
+  #toast {
     visibility: hidden;
     min-width: 250px;
-    background-color: #222;
+    background-color: #333;
     color: #fff;
     text-align: center;
-    padding: 14px;
-    border-radius: 6px;
+    border-radius: 5px;
+    padding: 16px;
     position: fixed;
+    z-index: 9999;
     left: 50%;
     bottom: 30px;
     transform: translateX(-50%);
-    font-size: 18px;
-    z-index: 9999;
-}
-
-#toast.show {
+    font-size: 16px;
+  }
+  #toast.show {
     visibility: visible;
-}
+    animation: fadein 0.5s, fadeout 0.5s 2s;
+  }
+  @keyframes fadein { from {opacity: 0;} to {opacity:1;} }
+  @keyframes fadeout { from {opacity:1;} to {opacity:0;} }
 </style>
 </head>
-
 <body>
-
 <div id="wrapper">
+  <!-- Tło -->
+  <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/background.png" id="background">
 
-    <!-- TŁO -->
-    <img id="background" class="layer"
-    src="https://raw.githubusercontent.com/kurza1ka/koxland/main/background.png">
+  <!-- Przyciski jako pełne nakładki -->
+  <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/playnow.png" id="playnow">
+  <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/ranking.png" id="ranking">
+  <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/rules.png" id="rules">
+  <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/discord.png" id="discord">
+  <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/shop.png" id="shop">
+  <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/modes.png" id="gamemodes">
 
-    <!-- PRZYCISKI (każdy ma pełny rozmiar tła) -->
-    <img id="playnow" class="layer"
-    src="https://raw.githubusercontent.com/kurza1ka/koxland/main/playnow.png">
+  <!-- Tryby gry (nakładka, początkowo niewidoczna) -->
+  <div id="modesWindow" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:1000;text-align:center;">
+    <h1>Tryby gry</h1>
+    <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/boxpvp.png" style="max-width:30%;margin:20px;">
+    <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/duels.png" style="max-width:30%;margin:20px;">
+    <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/survival.png" style="max-width:30%;margin:20px;">
+  </div>
 
-    <img id="ranking" class="layer"
-    src="https://raw.githubusercontent.com/kurza1ka/koxland/main/ranking.png">
-
-    <img id="rules" class="layer"
-    src="https://raw.githubusercontent.com/kurza1ka/koxland/main/rules.png">
-
-    <img id="discord" class="layer"
-    src="https://raw.githubusercontent.com/kurza1ka/koxland/main/discord.png">
-
-    <img id="shop" class="layer"
-    src="https://raw.githubusercontent.com/kurza1ka/koxland/main/shop.png">
-
-    <img id="modes" class="layer"
-    src="https://raw.githubusercontent.com/kurza1ka/koxland/main/modes.png">
-
+  <!-- Regulamin (nakładka, początkowo niewidoczna) -->
+  <div id="rulesWindow" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:1000;padding:20px;overflow:auto;">
+    <h1>Regulamin</h1>
+    <ol>
+      <li>Zakaz niszczenia spawna gdy wystąpi błąd.</li>
+      <li>O problemach z serwerem zgłaszać się do administracji.</li>
+      <li>Zakaz obrażania innych.</li>
+      <li>Zakaz spamowania na chacie. @everyone</li>
+      <li>Zakaz stawiania 20/100000000000 tnt i za to jest ban na IP.</li>
+      <li>Zakaz używania jakichkolwiek wspomagaczy.</li>
+      <li>ZAKAZ XRAY.</li>
+      <li>Zakaz zatajania czegokolwiek przed administracją.</li>
+    </ol>
+  </div>
 </div>
 
+<!-- Toast -->
 <div id="toast"></div>
 
 <script>
-
-function showToast(message) {
-    const toast = document.getElementById("toast");
+  function showToast(message) {
+    const toast = document.getElementById('toast');
     toast.textContent = message;
-    toast.className = "show";
-    setTimeout(() => {
-        toast.className = "";
-    }, 2500);
-}
+    toast.className = 'show';
+    setTimeout(() => { toast.className = toast.className.replace('show',''); }, 2500);
+  }
 
-/* PLAY NOW */
-document.getElementById("playnow").onclick = function() {
+  document.getElementById('playnow').onclick = () => {
     navigator.clipboard.writeText("koxland.pl");
     showToast("Skopiowano IP: koxland.pl");
-};
+  }
 
-/* RANKING */
-document.getElementById("ranking").onclick = function() {
-    showToast("Opcja niedostępna");
-};
+  document.getElementById('ranking').onclick = () => {
+    showToast("Opcja tymczasowo niedostępna");
+  }
 
-/* REGULAMIN */
-document.getElementById("rules").onclick = function() {
-    const win = window.open("", "_blank");
-    win.document.write(`
-        <html>
-        <head>
-        <title>Regulamin</title>
-        </head>
-        <body style="background:white; font-family:sans-serif; padding:40px;">
-        <h1>Regulamin</h1>
-        <p>1. Zakaz niszczenia spawna gdy wystąpi błąd.</p>
-        <p>2. O problemach z serwerem zgłaszać się do administracji.</p>
-        <p>3. Zakaz obrażania innych.</p>
-        <p>4. Zakaz spamowania na chacie.</p>
-        <p>5. Zakaz detonowania ogromnych ilości TNT – ban na IP.</p>
-        <p>6. Zakaz używania wspomagaczy.</p>
-        <p>7. Zakaz XRAY.</p>
-        <p>8. Zakaz zatajenia czegokolwiek przed administracją.</p>
-        </body>
-        </html>
-    `);
-};
+  document.getElementById('rules').onclick = () => {
+    document.getElementById('rulesWindow').style.display = 'block';
+  }
 
-/* DISCORD */
-document.getElementById("discord").onclick = function() {
+  document.getElementById('discord').onclick = () => {
     window.open("https://discord.gg/YfyS2EbbCN", "_blank");
-};
+  }
 
-/* SKLEP */
-document.getElementById("shop").onclick = function() {
+  document.getElementById('shop').onclick = () => {
     window.open("https://vishop.pl/shop/26468/server/25153", "_blank");
-};
+  }
 
-/* TRYBY GRY */
-document.getElementById("modes").onclick = function() {
-    const win = window.open("", "_blank");
-    win.document.write(`
-        <html>
-        <head>
-        <title>Tryby Gry</title>
-        </head>
-        <body style="background:white; font-family:sans-serif; padding:40px;">
-        <h1>Tryby Gry</h1>
-        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/boxpvp.png" style="width:400px; display:block; margin:20px 0;">
-        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/duels.png" style="width:400px; display:block; margin:20px 0;">
-        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/survival.png" style="width:400px; display:block; margin:20px 0;">
-        </body>
-        </html>
-    `);
-};
+  document.getElementById('gamemodes').onclick = () => {
+    document.getElementById('modesWindow').style.display = 'block';
+  }
 
+  // Kliknięcie w nakładkę zamyka ją
+  document.getElementById('rulesWindow').onclick = () => { document.getElementById('rulesWindow').style.display='none'; }
+  document.getElementById('modesWindow').onclick = () => { document.getElementById('modesWindow').style.display='none'; }
 </script>
-
 </body>
 </html>

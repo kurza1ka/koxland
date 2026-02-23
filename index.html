@@ -2,156 +2,174 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Koxland GUI</title>
 <style>
-  body, html {
+  body {
     margin: 0;
     padding: 0;
-    overflow: hidden;
-    height: 100%;
-    width: 100%;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
   }
-  #wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
-  #wrapper img {
-    position: absolute;
+
+  /* Tło */
+  #background {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    cursor: pointer;
+    z-index: 0;
   }
+
+  /* Przyciski */
+  .button {
+    position: absolute;
+    cursor: pointer;
+    z-index: 1;
+  }
+
   /* Toast */
   #toast {
     visibility: hidden;
-    min-width: 250px;
+    min-width: 150px;
     background-color: #333;
     color: #fff;
     text-align: center;
     border-radius: 5px;
-    padding: 16px;
+    padding: 8px;
     position: fixed;
-    z-index: 9999;
-    left: 50%;
     bottom: 30px;
+    left: 50%;
     transform: translateX(-50%);
-    font-size: 16px;
+    z-index: 10;
   }
   #toast.show {
     visibility: visible;
     animation: fadein 0.5s, fadeout 0.5s 2s;
   }
-  @keyframes fadein { from {opacity: 0;} to {opacity:1;} }
-  @keyframes fadeout { from {opacity:1;} to {opacity:0;} }
+  @keyframes fadein { from {opacity: 0;} to {opacity: 1;} }
+  @keyframes fadeout { from {opacity: 1;} to {opacity: 0;} }
 
-  /* Tryby gry */
-  #modesWindow {
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:#fff;
-    z-index:1000;
-    text-align:center;
-    padding-top: 50px;
+  /* Nakładki */
+  .overlay {
+    display: none;
+    position: fixed;
+    top:0; left:0;
+    width: 100%; height: 100%;
+    background: white;
+    z-index: 5;
+    overflow: auto;
+    padding: 2rem;
     box-sizing: border-box;
   }
+
+  /* Tryby gry */
   #modesWindow img {
     width: 30%;
-    margin: 0 1%;
-    vertical-align: top;
+    margin-right: 1rem;
+    vertical-align: middle;
+    cursor: pointer;
+  }
+  #modesWindow h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  /* Regulamin */
+  #rulesWindow h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  #rulesWindow p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
   }
 </style>
 </head>
 <body>
-<div id="wrapper">
-  <!-- Tło -->
-  <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/background.png" id="background">
 
-  <!-- Przyciski jako pełne nakładki -->
-  <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/playnow.png" id="playnow">
-  <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/ranking.png" id="ranking">
-  <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/rules.png" id="rules">
-  <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/discord.png" id="discord">
-  <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/shop.png" id="shop">
-  <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/modes.png" id="gamemodes">
+<!-- Tło -->
+<img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/background.png" id="background">
 
-  <!-- Tryby gry (nakładka) -->
-  <div id="modesWindow">
-    <h1>Tryby gry</h1>
-    <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/boxpvp.png">
-    <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/duels.png">
-    <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/survival.png">
-  </div>
-
-  <!-- Regulamin (nakładka) -->
-  <div id="rulesWindow" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:1000;padding:20px;overflow:auto;">
-    <h1>Regulamin</h1>
-    <ol>
-      <li>Zakaz niszczenia spawna gdy wystąpi błąd.</li>
-      <li>O problemach z serwerem zgłaszać się do administracji.</li>
-      <li>Zakaz obrażania innych.</li>
-      <li>Zakaz spamowania na chacie. @everyone</li>
-      <li>Zakaz stawiania 20/100000000000 tnt i za to jest ban na IP.</li>
-      <li>Zakaz używania jakichkolwiek wspomagaczy.</li>
-      <li>ZAKAZ XRAY.</li>
-      <li>Zakaz zatajania czegokolwiek przed administracją.</li>
-    </ol>
-  </div>
-</div>
+<!-- Przyciski -->
+<img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/playnow.png" class="button" id="playnow" style="top:200px; left:100px;">
+<img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/ranking.png" class="button" id="ranking" style="top:300px; left:100px;">
+<img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/rules.png" class="button" id="rules" style="top:400px; left:100px;">
+<img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/discord.png" class="button" id="discord" style="top:500px; left:100px;">
+<img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/shop.png" class="button" id="shop" style="top:600px; left:100px;">
+<img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/modes.png" class="button" id="gamemodes" style="top:700px; left:100px;">
 
 <!-- Toast -->
 <div id="toast"></div>
 
+<!-- Nakładki -->
+<div id="rulesWindow" class="overlay">
+  <h1>Regulamin</h1>
+  <p>1. Zakaz niszczenia spawna gdy wystąpi błąd.</p>
+  <p>2. O problemach z serwerem zgłaszać się do administracji.</p>
+  <p>3. Zakaz obrażania innych.</p>
+  <p>4. Zakaz spamowania na chacie. @everyone</p>
+  <p>5. Zakaz stawiania 20/100000000000 TNT i wybuchanie – ban na IP.</p>
+  <p>6. Zakaz używania jakichkolwiek wspomagaczy.</p>
+  <p>7. ZAKAZ XRAY.</p>
+  <p>8. Zakaz zatajania czegokolwiek przed administracją.</p>
+</div>
+
+<div id="modesWindow" class="overlay">
+  <h1>Tryby gry</h1>
+  <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/boxpvp.png">
+  <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/duels.png">
+  <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/survival.png">
+</div>
+
 <script>
-  function showToast(message) {
-    const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.className = 'show';
-    setTimeout(() => { toast.className = toast.className.replace('show',''); }, 2500);
-  }
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.className = 'show';
+  setTimeout(() => { toast.className = toast.className.replace('show',''); }, 2500);
+}
 
-  // Przycisk "Graj teraz"
-  document.getElementById('playnow').onclick = () => {
-    navigator.clipboard.writeText("koxland.pl");
-    showToast("Skopiowano IP: koxland.pl");
-  }
+// Przycisk Play Now
+document.getElementById('playnow').addEventListener('click', () => {
+  navigator.clipboard.writeText('koxland.pl');
+  showToast('IP skopiowane do schowka!');
+});
 
-  // Ranking
-  document.getElementById('ranking').onclick = () => {
-    showToast("Opcja tymczasowo niedostępna");
-  }
+// Przycisk Ranking
+document.getElementById('ranking').addEventListener('click', () => {
+  showToast('Opcja ranking niedostępna.');
+});
 
-  // Regulamin
-  document.getElementById('rules').onclick = () => {
-    document.getElementById('rulesWindow').style.display = 'block';
-  }
+// Przycisk Rules
+document.getElementById('rules').addEventListener('click', () => {
+  document.getElementById('rulesWindow').style.display = 'block';
+});
 
-  // Discord
-  document.getElementById('discord').onclick = () => {
-    window.open("https://discord.gg/YfyS2EbbCN", "_blank");
-  }
+// Przycisk Discord
+document.getElementById('discord').addEventListener('click', () => {
+  window.open('https://discord.gg/YfyS2EbbCN', '_blank');
+});
 
-  // Sklep
-  document.getElementById('shop').onclick = () => {
-    window.open("https://vishop.pl/shop/26468/server/25153", "_blank");
-  }
+// Przycisk Shop
+document.getElementById('shop').addEventListener('click', () => {
+  window.open('https://vishop.pl/shop/26468/server/25153', '_blank');
+});
 
-  // Tryby gry
-  document.getElementById('gamemodes').onclick = () => {
-    document.getElementById('modesWindow').style.display = 'block';
-  }
+// Przycisk Game Modes
+document.getElementById('gamemodes').addEventListener('click', () => {
+  document.getElementById('modesWindow').style.display = 'block';
+});
 
-  // Kliknięcie w nakładkę zamyka ją
-  document.getElementById('rulesWindow').onclick = () => { document.getElementById('rulesWindow').style.display='none'; }
-  document.getElementById('modesWindow').onclick = (e) => { 
-    if(e.target.tagName === 'DIV') document.getElementById('modesWindow').style.display='none'; 
-  }
+// Zamknięcie nakładek po kliknięciu w tło
+document.getElementById('rulesWindow').addEventListener('click', () => {
+  document.getElementById('rulesWindow').style.display = 'none';
+});
+document.getElementById('modesWindow').addEventListener('click', () => {
+  document.getElementById('modesWindow').style.display = 'none';
+});
 </script>
+
 </body>
 </html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Koxland</title>
+
+<style>
+
+/* CAŁE TŁO */
+body{
+margin:0;
+font-family:Arial;
+text-align:center;
+color:white;
+background:url("background.png") no-repeat center center fixed;
+background-size:cover;
+}
+
+/* GŁÓWNY BLOK */
+.container{
+padding:40px;
+}
+
+/* LOGO */
+.logo{
+width:120px;
+}
+
+/* IP BOX */
+.ip-box{
+margin:20px auto;
+background:rgba(0,0,0,0.7);
+padding:15px;
+border-radius:10px;
+width:fit-content;
+}
+
+/* PRZYCISKI */
+.btn{
+display:block;
+margin:15px auto;
+padding:15px;
+width:300px;
+background:#111;
+color:white;
+text-decoration:none;
+border-radius:10px;
+cursor:pointer;
+transition:0.3s;
+border:none;
+}
+
+.btn:hover{
+background:#2ecc71;
+}
+
+/* TRYBY */
+.modes{
+display:flex;
+justify-content:center;
+gap:40px;
+flex-wrap:wrap;
+margin-top:40px;
+}
+
+.mode img{
+width:200px;
+border-radius:10px;
+}
+
+.rules{
+background:rgba(0,0,0,0.7);
+padding:20px;
+border-radius:10px;
+max-width:600px;
+margin:20px auto;
+display:none;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<img src="logo.png" class="logo">
+
+<h1>KOXLAND</h1>
+
+<div class="ip-box">
+IP SERWERA: <b>koxland.pl</b>
+<button class="btn" onclick="copyIP()">KOPIUJ IP</button>
+WERSJA: 1.21.8
+</div>
+
+<a href="https://discord.gg/McYcBXUK67" target="_blank" class="btn">
+NASZ DISCORD
+</a>
+
+<a href="https://vishop.pl/shop/26468/server/25153" target="_blank" class="btn">
+SKLEP SERWEROWY
+</a>
+
+<button class="btn" onclick="showTryby()">TRYBY GRY</button>
+
+<button class="btn" onclick="rankingInfo()">RANKING</button>
+
+<button class="btn" onclick="showRegulamin()">REGULAMIN</button>
+
+<!-- TRYBY -->
+<div class="modes" id="tryby" style="display:none;">
+
+<div class="mode">
+<img src="survival.png">
+<h2>Survival</h2>
+</div>
+
+<div class="mode">
+<img src="boxpvp.png">
+<h2>BoxPvP</h2>
+</div>
+
+<div class="mode">
+<img src="duels.png">
+<h2>Duels</h2>
+</div>
+
+</div>
+
+<!-- REGULAMIN -->
+<div class="rules" id="regulamin">
+<p>1. Zakaz niszczenia spawna gdy wystąpi błąd.</p>
+<p>2. O problemach zgłaszać się do administracji.</p>
+<p>3. Zakaz obrażania innych.</p>
+<p>4. Zakaz spamowania na chacie.</p>
+<p>5. Zakaz stawiania 20/100000000000 TNT – ban na IP.</p>
+<p>6. Zakaz nieodpowiednich treści.</p>
+<p>7. Zakaz XRAY.</p>
+<p>8. Zakaz cheatów.</p>
+<p>9. Zakaz ukrywania czegokolwiek przed administracją.</p>
+</div>
+
+</div>
+
+<script>
+
+/* Kopiowanie IP */
+function copyIP(){
+navigator.clipboard.writeText("koxland.pl");
+alert("IP skopiowane!");
+}
+
+/* Ranking niedostępny */
+function rankingInfo(){
+alert("Ranking jest aktualnie niedostępny.");
+}
+
+/* Pokazanie trybów */
+function showTryby(){
+document.getElementById("tryby").style.display="flex";
+document.getElementById("regulamin").style.display="none";
+}
+
+/* Pokazanie regulaminu */
+function showRegulamin(){
+document.getElementById("regulamin").style.display="block";
+document.getElementById("tryby").style.display="none";
+}
+
+</script>
+
+</body>
+</html>

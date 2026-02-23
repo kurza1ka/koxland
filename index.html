@@ -3,21 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Koxland - Strona Serwera</title>
+<title>Koxland</title>
 <style>
   body {
     margin: 0;
+    padding: 0;
     font-family: Arial, sans-serif;
-    background: url('png/background.png') no-repeat center center fixed;
-    background-size: cover;
+    position: relative;
   }
 
-  .button {
+  #background {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url('background.png');
+    background-size: cover;
+    z-index: -1;
+  }
+
+  img.button {
     position: absolute;
     cursor: pointer;
   }
 
-  /* Przyciski - ustaw je dokładnie w miejscu, gdzie mają być */
   #playnow { top: 200px; left: 100px; }
   #ranking { top: 300px; left: 100px; }
   #rules { top: 400px; left: 100px; }
@@ -25,21 +33,20 @@
   #shop { top: 600px; left: 100px; }
   #gamemodes { top: 700px; left: 100px; }
 
-  /* Toast - mały komunikat przy kopiowaniu IP lub opcja niedostępna */
+  /* Toast */
   #toast {
     visibility: hidden;
-    min-width: 200px;
-    background-color: rgba(0,0,0,0.8);
-    color: #fff;
+    min-width: 250px;
+    background-color: black;
+    color: white;
     text-align: center;
     border-radius: 5px;
     padding: 10px;
     position: fixed;
-    z-index: 100;
+    z-index: 9999;
     left: 50%;
-    bottom: 50px;
+    bottom: 30px;
     transform: translateX(-50%);
-    font-size: 16px;
   }
 
   #toast.show {
@@ -47,28 +54,32 @@
     animation: fadein 0.5s, fadeout 0.5s 2s;
   }
 
-  @keyframes fadein {
-    from { bottom: 30px; opacity: 0; }
-    to { bottom: 50px; opacity: 1; }
-  }
+  @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
+  @keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 0; opacity: 0; } }
 
-  @keyframes fadeout {
-    from { bottom: 50px; opacity: 1; }
-    to { bottom: 70px; opacity: 0; }
-  }
 </style>
 </head>
 <body>
 
-<!-- Przyciski -->
-<img src="ong/playnow.png" id="playnow" class="button" alt="Play Now">
-<img src="ong/ranking.png" id="ranking" class="button" alt="Ranking">
-<img src="ong/rules.png" id="rules" class="button" alt="Regulamin">
-<img src="ong/discord.png" id="discord" class="button" alt="Discord">
-<img src="ong/shop.png" id="shop" class="button" alt="Sklep">
-<img src="ong/gamemodes.png" id="gamemodes" class="button" alt="Tryby Gry">
+<div id="background"></div>
 
-<!-- Komunikat toast -->
+<!-- Przycisk logo i tryby -->
+<img src="logo.png" class="button" style="top:50px; left:100px;" alt="Logo">
+<img src="modes.png" class="button" id="gamemodes" alt="Tryby Gry">
+
+<!-- Główne przyciski -->
+<img src="playnow.png" class="button" id="playnow" alt="Graj teraz">
+<img src="ranking.png" class="button" id="ranking" alt="Ranking">
+<img src="rules.png" class="button" id="rules" alt="Regulamin">
+<img src="discord.png" class="button" id="discord" alt="Discord">
+<img src="shop.png" class="button" id="shop" alt="Sklep">
+
+<!-- Tryby gry (białe tło, nowe okno) -->
+<img src="boxpvp.png" class="button" id="boxpvp" style="display:none;" alt="Box PvP">
+<img src="duels.png" class="button" id="duels" style="display:none;" alt="Duels">
+<img src="survival.png" class="button" id="survival" style="display:none;" alt="Survival">
+
+<!-- Toast -->
 <div id="toast"></div>
 
 <script>
@@ -79,76 +90,58 @@ function showToast(message) {
   setTimeout(() => { toast.className = toast.className.replace('show',''); }, 2500);
 }
 
-// Play Now - kopiuje IP
+// Przycisk Graj teraz
 document.getElementById('playnow').onclick = () => {
   navigator.clipboard.writeText('koxland.pl').then(() => {
-    showToast('IP skopiowane do schowka');
+    showToast('Skopiowano IP serwera!');
   });
 };
 
-// Ranking - opcja niedostępna
+// Przycisk Ranking
 document.getElementById('ranking').onclick = () => {
-  showToast('Opcja niedostępna');
+  showToast('Opcja rankingów jest obecnie niedostępna');
 };
 
-// Regulamin - nowa karta z białym tłem
+// Przycisk Regulamin
 document.getElementById('rules').onclick = () => {
-  const win = window.open('', '_blank');
-  win.document.write(`
-    <html>
-      <head>
-        <title>Regulamin</title>
-        <style>
-          body { background: white; font-family: Arial; padding: 20px; }
-          h1 { text-align: center; }
-          p { margin-bottom: 10px; font-size: 16px; }
-        </style>
-      </head>
-      <body>
-        <h1>Regulamin</h1>
-        <p>1. Zakaz niszczenia spawna gdy wystąpi błąd.</p>
-        <p>2. O problemach z serwerem zgłaszać się do administracji.</p>
-        <p>3. Zakaz obrażania innych.</p>
-        <p>4. Zakaz spamowania na chacie. @everyone</p>
-        <p>5. Zakaz stawiania 20/100000000000 TNT i grozi ban na IP.</p>
-        <p>6. Zakaz używania jakichkolwiek wspomagaczy.</p>
-        <p>7. ZAKAZ XRAY</p>
-        <p>8. Zakaz zatajania czegokolwiek przed administracją.</p>
-      </body>
-    </html>
+  const rulesWindow = window.open("", "_blank", "width=600,height=800");
+  rulesWindow.document.write(`
+    <body style="background-color:white; font-family:Arial, sans-serif; padding:20px;">
+    <h1>Regulamin</h1>
+    <ol>
+      <li>Zakaz niszczenia spawna gdy wystąpi błąd.</li>
+      <li>O problemach z serwerem zgłaszać się do administracji.</li>
+      <li>Zakaz obrażania innych.</li>
+      <li>Zakaz spamowania na chacie. @everyone</li>
+      <li>Zakaz stawiania 20/100000000000 TNT – za to ban na IP.</li>
+      <li>Zakaz używania jakichkolwiek wspomagaczy.</li>
+      <li>ZAKAZ XRAY.</li>
+      <li>Zakaz zatajania czegokolwiek przed administracją.</li>
+    </ol>
+    </body>
   `);
 };
 
-// Discord - otwiera link
+// Przycisk Discord
 document.getElementById('discord').onclick = () => {
   window.open('https://discord.gg/YfyS2EbbCN', '_blank');
 };
 
-// Sklep serwerowy - otwiera link
+// Przycisk Sklep
 document.getElementById('shop').onclick = () => {
   window.open('https://vishop.pl/shop/26468/server/25153', '_blank');
 };
 
-// Tryby gry - nowa karta z białym tłem i obrazkami
+// Przycisk Tryby Gry
 document.getElementById('gamemodes').onclick = () => {
-  const win = window.open('', '_blank');
-  win.document.write(`
-    <html>
-      <head>
-        <title>Tryby gry</title>
-        <style>
-          body { background: white; font-family: Arial; padding: 20px; text-align: center; }
-          h1 { margin-bottom: 30px; }
-          img { margin: 10px; width: 200px; height: auto; }
-        </style>
-      </head>
-      <body>
-        <h1>Tryby gry</h1>
-        <img src="png/boxpvp.png" alt="Box PvP">
-        <img src="png/duels.png" alt="Duels">
-        <img src="png/survival.png" alt="Survival">
-      </body>
-    </html>
+  const modesWindow = window.open("", "_blank", "width=600,height=800");
+  modesWindow.document.write(`
+    <body style="background-color:white; font-family:Arial, sans-serif; padding:20px;">
+    <h1>Tryby Gry</h1>
+    <img src="boxpvp.png" style="width:100%; margin:10px 0;">
+    <img src="duels.png" style="width:100%; margin:10px 0;">
+    <img src="survival.png" style="width:100%; margin:10px 0;">
+    </body>
   `);
 };
 </script>

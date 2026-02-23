@@ -46,6 +46,26 @@
   }
   @keyframes fadein { from {opacity: 0;} to {opacity:1;} }
   @keyframes fadeout { from {opacity:1;} to {opacity:0;} }
+
+  /* Tryby gry */
+  #modesWindow {
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#fff;
+    z-index:1000;
+    text-align:center;
+    padding-top: 50px;
+    box-sizing: border-box;
+  }
+  #modesWindow img {
+    width: 30%;
+    margin: 0 1%;
+    vertical-align: top;
+  }
 </style>
 </head>
 <body>
@@ -61,15 +81,15 @@
   <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/shop.png" id="shop">
   <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/modes.png" id="gamemodes">
 
-  <!-- Tryby gry (nakładka, początkowo niewidoczna) -->
-  <div id="modesWindow" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:1000;text-align:center;">
+  <!-- Tryby gry (nakładka) -->
+  <div id="modesWindow">
     <h1>Tryby gry</h1>
-    <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/boxpvp.png" style="max-width:30%;margin:20px;">
-    <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/duels.png" style="max-width:30%;margin:20px;">
-    <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/survival.png" style="max-width:30%;margin:20px;">
+    <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/boxpvp.png">
+    <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/duels.png">
+    <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/survival.png">
   </div>
 
-  <!-- Regulamin (nakładka, początkowo niewidoczna) -->
+  <!-- Regulamin (nakładka) -->
   <div id="rulesWindow" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:1000;padding:20px;overflow:auto;">
     <h1>Regulamin</h1>
     <ol>
@@ -96,34 +116,42 @@
     setTimeout(() => { toast.className = toast.className.replace('show',''); }, 2500);
   }
 
+  // Przycisk "Graj teraz"
   document.getElementById('playnow').onclick = () => {
     navigator.clipboard.writeText("koxland.pl");
     showToast("Skopiowano IP: koxland.pl");
   }
 
+  // Ranking
   document.getElementById('ranking').onclick = () => {
     showToast("Opcja tymczasowo niedostępna");
   }
 
+  // Regulamin
   document.getElementById('rules').onclick = () => {
     document.getElementById('rulesWindow').style.display = 'block';
   }
 
+  // Discord
   document.getElementById('discord').onclick = () => {
     window.open("https://discord.gg/YfyS2EbbCN", "_blank");
   }
 
+  // Sklep
   document.getElementById('shop').onclick = () => {
     window.open("https://vishop.pl/shop/26468/server/25153", "_blank");
   }
 
+  // Tryby gry
   document.getElementById('gamemodes').onclick = () => {
     document.getElementById('modesWindow').style.display = 'block';
   }
 
   // Kliknięcie w nakładkę zamyka ją
   document.getElementById('rulesWindow').onclick = () => { document.getElementById('rulesWindow').style.display='none'; }
-  document.getElementById('modesWindow').onclick = () => { document.getElementById('modesWindow').style.display='none'; }
+  document.getElementById('modesWindow').onclick = (e) => { 
+    if(e.target.tagName === 'DIV') document.getElementById('modesWindow').style.display='none'; 
+  }
 </script>
 </body>
 </html>

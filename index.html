@@ -2,148 +2,165 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>Koxland</title>
+<title>KoxLand</title>
+
 <style>
-body {
+html, body {
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
+    height: 100%;
 }
 
 #wrapper {
     position: relative;
-    width: 1920px;  /* dostosuj do rozmiaru tła */
-    height: 1080px;
-    background-image: url('https://raw.githubusercontent.com/kurza1ka/koxland/main/background.png');
-    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
 }
 
-#wrapper img {
+/* Każda warstwa ma dokładnie ten sam rozmiar */
+.layer {
     position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     cursor: pointer;
 }
 
-/* Pozycje przycisków – dopasuj dokładnie do obrazka */
-#playnow { top: 200px; left: 100px; }
-#ranking { top: 300px; left: 100px; }
-#rules { top: 400px; left: 100px; }
-#discord { top: 500px; left: 100px; }
-#shop { top: 600px; left: 100px; }
-#gamemodes { top: 700px; left: 100px; }
+/* Tło nie ma kursora */
+#background {
+    cursor: default;
+}
 
-/* Komunikat toast */
 #toast {
     visibility: hidden;
     min-width: 250px;
-    background-color: #333;
+    background-color: #222;
     color: #fff;
     text-align: center;
-    border-radius: 4px;
-    padding: 12px;
+    padding: 14px;
+    border-radius: 6px;
     position: fixed;
-    z-index: 999;
     left: 50%;
     bottom: 30px;
     transform: translateX(-50%);
     font-size: 18px;
+    z-index: 9999;
 }
 
 #toast.show {
     visibility: visible;
-    animation: fadein 0.5s, fadeout 0.5s 2s;
-}
-
-@keyframes fadein {
-    from { bottom: 0; opacity: 0; }
-    to { bottom: 30px; opacity: 1; }
-}
-@keyframes fadeout {
-    from { bottom: 30px; opacity: 1; }
-    to { bottom: 0; opacity: 0; }
 }
 </style>
 </head>
+
 <body>
+
 <div id="wrapper">
-    <img id="playnow" src="https://raw.githubusercontent.com/kurza1ka/koxland/main/playnow.png">
-    <img id="ranking" src="https://raw.githubusercontent.com/kurza1ka/koxland/main/ranking.png">
-    <img id="rules" src="https://raw.githubusercontent.com/kurza1ka/koxland/main/rules.png">
-    <img id="discord" src="https://raw.githubusercontent.com/kurza1ka/koxland/main/discord.png">
-    <img id="shop" src="https://raw.githubusercontent.com/kurza1ka/koxland/main/shop.png">
-    <img id="gamemodes" src="https://raw.githubusercontent.com/kurza1ka/koxland/main/modes.png">
+
+    <!-- TŁO -->
+    <img id="background" class="layer"
+    src="https://raw.githubusercontent.com/kurza1ka/koxland/main/background.png">
+
+    <!-- PRZYCISKI (każdy ma pełny rozmiar tła) -->
+    <img id="playnow" class="layer"
+    src="https://raw.githubusercontent.com/kurza1ka/koxland/main/playnow.png">
+
+    <img id="ranking" class="layer"
+    src="https://raw.githubusercontent.com/kurza1ka/koxland/main/ranking.png">
+
+    <img id="rules" class="layer"
+    src="https://raw.githubusercontent.com/kurza1ka/koxland/main/rules.png">
+
+    <img id="discord" class="layer"
+    src="https://raw.githubusercontent.com/kurza1ka/koxland/main/discord.png">
+
+    <img id="shop" class="layer"
+    src="https://raw.githubusercontent.com/kurza1ka/koxland/main/shop.png">
+
+    <img id="modes" class="layer"
+    src="https://raw.githubusercontent.com/kurza1ka/koxland/main/modes.png">
+
 </div>
 
 <div id="toast"></div>
 
 <script>
-// Funkcja pokazywania komunikatu
+
 function showToast(message) {
-    const toast = document.getElementById('toast');
+    const toast = document.getElementById("toast");
     toast.textContent = message;
-    toast.className = 'show';
+    toast.className = "show";
     setTimeout(() => {
-        toast.className = toast.className.replace('show','');
+        toast.className = "";
     }, 2500);
 }
 
-// Play Now – kopiuje IP
-document.getElementById('playnow').addEventListener('click', () => {
-    navigator.clipboard.writeText('koxland.pl').then(() => {
-        showToast('Skopiowano IP do schowka!');
-    });
-});
+/* PLAY NOW */
+document.getElementById("playnow").onclick = function() {
+    navigator.clipboard.writeText("koxland.pl");
+    showToast("Skopiowano IP: koxland.pl");
+};
 
-// Ranking – opcja niedostępna
-document.getElementById('ranking').addEventListener('click', () => {
-    showToast('Opcja ranking niedostępna');
-});
+/* RANKING */
+document.getElementById("ranking").onclick = function() {
+    showToast("Opcja niedostępna");
+};
 
-// Rules – otwiera regulamin w nowym oknie
-document.getElementById('rules').addEventListener('click', () => {
-    const regulaminWindow = window.open('', '_blank');
-    regulaminWindow.document.write(`
+/* REGULAMIN */
+document.getElementById("rules").onclick = function() {
+    const win = window.open("", "_blank");
+    win.document.write(`
         <html>
-        <head><title>Regulamin</title></head>
-        <body style="background-color:white; font-family:sans-serif; padding:20px;">
+        <head>
+        <title>Regulamin</title>
+        </head>
+        <body style="background:white; font-family:sans-serif; padding:40px;">
         <h1>Regulamin</h1>
         <p>1. Zakaz niszczenia spawna gdy wystąpi błąd.</p>
         <p>2. O problemach z serwerem zgłaszać się do administracji.</p>
         <p>3. Zakaz obrażania innych.</p>
-        <p>4. Zakaz spamowania na chacie. @everyone</p>
-        <p>5. Zakaz stawiania 20/100000000000 TNT i jego detonacji – ban na IP</p>
+        <p>4. Zakaz spamowania na chacie.</p>
+        <p>5. Zakaz detonowania ogromnych ilości TNT – ban na IP.</p>
         <p>6. Zakaz używania wspomagaczy.</p>
-        <p>7. ZAKAZ XRAY.</p>
+        <p>7. Zakaz XRAY.</p>
         <p>8. Zakaz zatajenia czegokolwiek przed administracją.</p>
         </body>
         </html>
     `);
-});
+};
 
-// Discord
-document.getElementById('discord').addEventListener('click', () => {
-    window.open('https://discord.gg/YfyS2EbbCN', '_blank');
-});
+/* DISCORD */
+document.getElementById("discord").onclick = function() {
+    window.open("https://discord.gg/YfyS2EbbCN", "_blank");
+};
 
-// Shop
-document.getElementById('shop').addEventListener('click', () => {
-    window.open('https://vishop.pl/shop/26468/server/25153', '_blank');
-});
+/* SKLEP */
+document.getElementById("shop").onclick = function() {
+    window.open("https://vishop.pl/shop/26468/server/25153", "_blank");
+};
 
-// Game Modes – nowe okno z trybami gry
-document.getElementById('gamemodes').addEventListener('click', () => {
-    const gmWindow = window.open('', '_blank');
-    gmWindow.document.write(`
+/* TRYBY GRY */
+document.getElementById("modes").onclick = function() {
+    const win = window.open("", "_blank");
+    win.document.write(`
         <html>
-        <head><title>Tryby Gry</title></head>
-        <body style="background-color:white; font-family:sans-serif; padding:20px;">
-        <h1>Tryby gry</h1>
-        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/boxpvp.png" style="display:block; margin:20px 0;">
-        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/duels.png" style="display:block; margin:20px 0;">
-        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/survival.png" style="display:block; margin:20px 0;">
+        <head>
+        <title>Tryby Gry</title>
+        </head>
+        <body style="background:white; font-family:sans-serif; padding:40px;">
+        <h1>Tryby Gry</h1>
+        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/boxpvp.png" style="width:400px; display:block; margin:20px 0;">
+        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/duels.png" style="width:400px; display:block; margin:20px 0;">
+        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/survival.png" style="width:400px; display:block; margin:20px 0;">
         </body>
         </html>
     `);
-});
+};
+
 </script>
+
 </body>
 </html>

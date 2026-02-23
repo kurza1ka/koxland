@@ -2,172 +2,155 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>Koxland</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Koxland - Strona Serwera</title>
 <style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('png/background.png') no-repeat center center fixed;
+    background-size: cover;
+  }
 
-/* CAŁE TŁO */
-body{
-margin:0;
-font-family:Arial;
-text-align:center;
-color:white;
-background:url("background.png") no-repeat center center fixed;
-background-size:cover;
-}
+  .button {
+    position: absolute;
+    cursor: pointer;
+  }
 
-/* GŁÓWNY BLOK */
-.container{
-padding:40px;
-}
+  /* Przyciski - ustaw je dokładnie w miejscu, gdzie mają być */
+  #playnow { top: 200px; left: 100px; }
+  #ranking { top: 300px; left: 100px; }
+  #rules { top: 400px; left: 100px; }
+  #discord { top: 500px; left: 100px; }
+  #shop { top: 600px; left: 100px; }
+  #gamemodes { top: 700px; left: 100px; }
 
-/* LOGO */
-.logo{
-width:120px;
-}
+  /* Toast - mały komunikat przy kopiowaniu IP lub opcja niedostępna */
+  #toast {
+    visibility: hidden;
+    min-width: 200px;
+    background-color: rgba(0,0,0,0.8);
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 10px;
+    position: fixed;
+    z-index: 100;
+    left: 50%;
+    bottom: 50px;
+    transform: translateX(-50%);
+    font-size: 16px;
+  }
 
-/* IP BOX */
-.ip-box{
-margin:20px auto;
-background:rgba(0,0,0,0.7);
-padding:15px;
-border-radius:10px;
-width:fit-content;
-}
+  #toast.show {
+    visibility: visible;
+    animation: fadein 0.5s, fadeout 0.5s 2s;
+  }
 
-/* PRZYCISKI */
-.btn{
-display:block;
-margin:15px auto;
-padding:15px;
-width:300px;
-background:#111;
-color:white;
-text-decoration:none;
-border-radius:10px;
-cursor:pointer;
-transition:0.3s;
-border:none;
-}
+  @keyframes fadein {
+    from { bottom: 30px; opacity: 0; }
+    to { bottom: 50px; opacity: 1; }
+  }
 
-.btn:hover{
-background:#2ecc71;
-}
-
-/* TRYBY */
-.modes{
-display:flex;
-justify-content:center;
-gap:40px;
-flex-wrap:wrap;
-margin-top:40px;
-}
-
-.mode img{
-width:200px;
-border-radius:10px;
-}
-
-.rules{
-background:rgba(0,0,0,0.7);
-padding:20px;
-border-radius:10px;
-max-width:600px;
-margin:20px auto;
-display:none;
-}
-
+  @keyframes fadeout {
+    from { bottom: 50px; opacity: 1; }
+    to { bottom: 70px; opacity: 0; }
+  }
 </style>
-
 </head>
 <body>
 
-<div class="container">
+<!-- Przyciski -->
+<img src="ong/playnow.png" id="playnow" class="button" alt="Play Now">
+<img src="ong/ranking.png" id="ranking" class="button" alt="Ranking">
+<img src="ong/rules.png" id="rules" class="button" alt="Regulamin">
+<img src="ong/discord.png" id="discord" class="button" alt="Discord">
+<img src="ong/shop.png" id="shop" class="button" alt="Sklep">
+<img src="ong/gamemodes.png" id="gamemodes" class="button" alt="Tryby Gry">
 
-<img src="logo.png" class="logo">
-
-<h1>KOXLAND</h1>
-
-<div class="ip-box">
-IP SERWERA: <b>koxland.pl</b>
-<button class="btn" onclick="copyIP()">KOPIUJ IP</button>
-WERSJA: 1.21.8
-</div>
-
-<a href="https://discord.gg/McYcBXUK67" target="_blank" class="btn">
-NASZ DISCORD
-</a>
-
-<a href="https://vishop.pl/shop/26468/server/25153" target="_blank" class="btn">
-SKLEP SERWEROWY
-</a>
-
-<button class="btn" onclick="showTryby()">TRYBY GRY</button>
-
-<button class="btn" onclick="rankingInfo()">RANKING</button>
-
-<button class="btn" onclick="showRegulamin()">REGULAMIN</button>
-
-<!-- TRYBY -->
-<div class="modes" id="tryby" style="display:none;">
-
-<div class="mode">
-<img src="survival.png">
-<h2>Survival</h2>
-</div>
-
-<div class="mode">
-<img src="boxpvp.png">
-<h2>BoxPvP</h2>
-</div>
-
-<div class="mode">
-<img src="duels.png">
-<h2>Duels</h2>
-</div>
-
-</div>
-
-<!-- REGULAMIN -->
-<div class="rules" id="regulamin">
-<p>1. Zakaz niszczenia spawna gdy wystąpi błąd.</p>
-<p>2. O problemach zgłaszać się do administracji.</p>
-<p>3. Zakaz obrażania innych.</p>
-<p>4. Zakaz spamowania na chacie.</p>
-<p>5. Zakaz stawiania 20/100000000000 TNT – ban na IP.</p>
-<p>6. Zakaz nieodpowiednich treści.</p>
-<p>7. Zakaz XRAY.</p>
-<p>8. Zakaz cheatów.</p>
-<p>9. Zakaz ukrywania czegokolwiek przed administracją.</p>
-</div>
-
-</div>
+<!-- Komunikat toast -->
+<div id="toast"></div>
 
 <script>
-
-/* Kopiowanie IP */
-function copyIP(){
-navigator.clipboard.writeText("koxland.pl");
-alert("IP skopiowane!");
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.className = 'show';
+  setTimeout(() => { toast.className = toast.className.replace('show',''); }, 2500);
 }
 
-/* Ranking niedostępny */
-function rankingInfo(){
-alert("Ranking jest aktualnie niedostępny.");
-}
+// Play Now - kopiuje IP
+document.getElementById('playnow').onclick = () => {
+  navigator.clipboard.writeText('koxland.pl').then(() => {
+    showToast('IP skopiowane do schowka');
+  });
+};
 
-/* Pokazanie trybów */
-function showTryby(){
-document.getElementById("tryby").style.display="flex";
-document.getElementById("regulamin").style.display="none";
-}
+// Ranking - opcja niedostępna
+document.getElementById('ranking').onclick = () => {
+  showToast('Opcja niedostępna');
+};
 
-/* Pokazanie regulaminu */
-function showRegulamin(){
-document.getElementById("regulamin").style.display="block";
-document.getElementById("tryby").style.display="none";
-}
+// Regulamin - nowa karta z białym tłem
+document.getElementById('rules').onclick = () => {
+  const win = window.open('', '_blank');
+  win.document.write(`
+    <html>
+      <head>
+        <title>Regulamin</title>
+        <style>
+          body { background: white; font-family: Arial; padding: 20px; }
+          h1 { text-align: center; }
+          p { margin-bottom: 10px; font-size: 16px; }
+        </style>
+      </head>
+      <body>
+        <h1>Regulamin</h1>
+        <p>1. Zakaz niszczenia spawna gdy wystąpi błąd.</p>
+        <p>2. O problemach z serwerem zgłaszać się do administracji.</p>
+        <p>3. Zakaz obrażania innych.</p>
+        <p>4. Zakaz spamowania na chacie. @everyone</p>
+        <p>5. Zakaz stawiania 20/100000000000 TNT i grozi ban na IP.</p>
+        <p>6. Zakaz używania jakichkolwiek wspomagaczy.</p>
+        <p>7. ZAKAZ XRAY</p>
+        <p>8. Zakaz zatajania czegokolwiek przed administracją.</p>
+      </body>
+    </html>
+  `);
+};
 
+// Discord - otwiera link
+document.getElementById('discord').onclick = () => {
+  window.open('https://discord.gg/YfyS2EbbCN', '_blank');
+};
+
+// Sklep serwerowy - otwiera link
+document.getElementById('shop').onclick = () => {
+  window.open('https://vishop.pl/shop/26468/server/25153', '_blank');
+};
+
+// Tryby gry - nowa karta z białym tłem i obrazkami
+document.getElementById('gamemodes').onclick = () => {
+  const win = window.open('', '_blank');
+  win.document.write(`
+    <html>
+      <head>
+        <title>Tryby gry</title>
+        <style>
+          body { background: white; font-family: Arial; padding: 20px; text-align: center; }
+          h1 { margin-bottom: 30px; }
+          img { margin: 10px; width: 200px; height: auto; }
+        </style>
+      </head>
+      <body>
+        <h1>Tryby gry</h1>
+        <img src="png/boxpvp.png" alt="Box PvP">
+        <img src="png/duels.png" alt="Duels">
+        <img src="png/survival.png" alt="Survival">
+      </body>
+    </html>
+  `);
+};
 </script>
 
 </body>

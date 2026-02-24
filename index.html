@@ -10,13 +10,12 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
+    font-family: Arial, sans-serif;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
     text-align: center;
-    color: #111;
-    font-family: Arial, sans-serif;
 }
 
 /* STRONY */
@@ -60,7 +59,13 @@ html, body {
     transform: scale(1.05);
 }
 
-/* TEKST */
+/* ===== TEKST NA PUSTYM TLE ===== */
+#rules,
+#gamemodes,
+#messagePage {
+    color: #111;
+}
+
 .header {
     font-size: 36px;
     margin-bottom: 40px;
@@ -148,7 +153,6 @@ html, body {
 </div>
 
 <script>
-
 const tlo1 = "https://raw.githubusercontent.com/kurza1ka/koxland/main/t%C5%82o1.png";
 const pustetlo = "https://raw.githubusercontent.com/kurza1ka/koxland/main/pustet%C5%82o.png";
 
@@ -187,200 +191,6 @@ function playNow() {
 }
 
 showPage("lobby");
-
-</script>
-
-</body>
-</html><!DOCTYPE html>
-<html lang="pl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KoxLand</title>
-
-<style>
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    text-align: center;
-    color: #111;
-    font-family: Arial, sans-serif;
-}
-
-/* STRONY */
-.page {
-    display: none;
-    min-height: 100vh;
-    padding-top: 8vh;
-}
-
-.active {
-    display: block;
-}
-
-/* LOBBY */
-#lobby {
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-}
-
-/* PRZYCISKI */
-#lobby .buttons {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    gap: 7vh 10vw;
-}
-
-/* WIĘKSZE PRZYCISKI */
-.btn img {
-    width: min(50vw, 420px);
-    height: auto;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.btn img:hover {
-    transform: scale(1.05);
-}
-
-/* TEKST */
-.header {
-    font-size: 36px;
-    margin-bottom: 40px;
-}
-
-.text-content {
-    max-width: 800px;
-    margin: auto;
-    font-size: 18px;
-    text-align: left;
-    line-height: 1.6;
-    padding: 0 20px;
-}
-
-.modes {
-    display: flex;
-    justify-content: center;
-    gap: 6vw;
-    flex-wrap: wrap;
-}
-
-.modes img {
-    width: min(32vw, 320px);
-    cursor: pointer;
-}
-
-.message {
-    font-size: 20px;
-    margin-top: 30px;
-}
-
-.back {
-    margin-top: 40px;
-    cursor: pointer;
-    font-size: 18px;
-}
-</style>
-</head>
-
-<body>
-
-<!-- LOBBY -->
-<div id="lobby" class="page active">
-    <div class="buttons">
-        <div class="btn"><img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/playnow.png" onclick="playNow()"></div>
-        <div class="btn"><img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/gamemodes.png" onclick="showPage('gamemodes')"></div>
-        <div class="btn"><img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/shop.png" onclick="openShop()"></div>
-        <div class="btn"><img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/discord.png" onclick="openDiscord()"></div>
-        <div class="btn"><img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/rules.png" onclick="showPage('rules')"></div>
-        <div class="btn"><img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/ranking.png" onclick="ranking()"></div>
-    </div>
-</div>
-
-<!-- REGULAMIN -->
-<div id="rules" class="page">
-    <div class="header">Regulamin</div>
-    <div class="text-content">
-1 Zakaz niszczenia spawna gdy wystąpi błąd.<br><br>
-2 O problemach z serwerem zgłaszać się do właściciela, gdyby właściciel nie odpisał to do administracji.<br><br>
-3 Zakaz obrażania innych.<br><br>
-4 Zakaz spamowania na chacie.<br><br>
-5 Zakaz stawiania 20/100000000000 TNT i wysadzania, za to jest ban na IP.<br><br>
-6 Zakaz cheatów.<br><br>
-7 ZAKAZ XRAY.
-    </div>
-    <div class="back" onclick="showPage('lobby')">Powrót</div>
-</div>
-
-<!-- TRYBY -->
-<div id="gamemodes" class="page">
-    <div class="header">Tryby gry</div>
-    <div class="modes">
-        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/survival.png">
-        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/boxpvp.png">
-        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/duels.png">
-    </div>
-    <div class="back" onclick="showPage('lobby')">Powrót</div>
-</div>
-
-<!-- KOMUNIKAT -->
-<div id="messagePage" class="page">
-    <div class="header" id="messageTitle"></div>
-    <div class="message" id="messageText"></div>
-    <div class="back" onclick="showPage('lobby')">Powrót</div>
-</div>
-
-<script>
-
-const tlo1 = "https://raw.githubusercontent.com/kurza1ka/koxland/main/t%C5%82o1.png";
-const pustetlo = "https://raw.githubusercontent.com/kurza1ka/koxland/main/pustet%C5%82o.png";
-
-function showPage(pageId) {
-    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-    document.getElementById(pageId).classList.add("active");
-
-    if(pageId === "lobby") {
-        document.body.style.backgroundImage = `url(${tlo1})`;
-        document.body.style.overflow = "hidden";
-    } else {
-        document.body.style.backgroundImage = `url(${pustetlo})`;
-        document.body.style.overflow = "auto";
-    }
-}
-
-function openDiscord() {
-    window.open("https://discord.gg/ga9Gbm7RxT", "_blank");
-}
-
-function openShop() {
-    window.open("https://panel.vishop.pl/", "_blank");
-}
-
-function ranking() {
-    showPage("messagePage");
-    document.getElementById("messageTitle").innerText = "Ranking";
-    document.getElementById("messageText").innerText = "Ta opcja jest niedostępna.";
-}
-
-function playNow() {
-    navigator.clipboard.writeText("twoje.ip.serwera");
-    showPage("messagePage");
-    document.getElementById("messageTitle").innerText = "Graj teraz";
-    document.getElementById("messageText").innerText = "Skopiowano IP do schowka.";
-}
-
-showPage("lobby");
-
 </script>
 
 </body>

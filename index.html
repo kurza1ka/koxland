@@ -184,16 +184,11 @@ function ranking() {
 }
 
 function playNow() {
-    navigator.clipboard.writeText("koxland.pl").then(() => {
-        showPage("messagePage");
-        document.getElementById("messageTitle").innerText = "Graj teraz";
-        document.getElementById("messageText").innerText = "IP zostało skopiowane do schowka.";
-    }).catch(err => {
-        showPage("messagePage");
-        document.getElementById("messageTitle").innerText = "Błąd";
-        document.getElementById("messageText").innerText = "Nie udało się skopiować IP.";
-        console.error(err);
-    });
+    // kopiowanie IP i wyświetlenie komunikatu bez otwierania okien
+    navigator.clipboard.writeText("koxland.pl");
+    document.getElementById("messageTitle").innerText = "Graj teraz";
+    document.getElementById("messageText").innerText = "IP zostało skopiowane do schowka.";
+    showPage("messagePage");
 }
 
 showPage("lobby");

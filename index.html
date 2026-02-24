@@ -174,7 +174,7 @@ function openDiscord() {
 }
 
 function openShop() {
-    window.open("https://panel.vishop.pl/", "_blank");
+    window.open("https://vishop.pl/shop/26468/server/25153", "_blank");
 }
 
 function ranking() {
@@ -184,10 +184,16 @@ function ranking() {
 }
 
 function playNow() {
-    navigator.clipboard.writeText("twoje.ip.serwera");
-    showPage("messagePage");
-    document.getElementById("messageTitle").innerText = "Graj teraz";
-    document.getElementById("messageText").innerText = "Skopiowano IP do schowka.";
+    navigator.clipboard.writeText("koxland.pl").then(() => {
+        showPage("messagePage");
+        document.getElementById("messageTitle").innerText = "Graj teraz";
+        document.getElementById("messageText").innerText = "IP zostało skopiowane do schowka.";
+    }).catch(err => {
+        showPage("messagePage");
+        document.getElementById("messageTitle").innerText = "Błąd";
+        document.getElementById("messageText").innerText = "Nie udało się skopiować IP.";
+        console.error(err);
+    });
 }
 
 showPage("lobby");

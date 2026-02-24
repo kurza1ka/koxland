@@ -2,21 +2,27 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>Koxland</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KoxLand</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    text-align: center;
+    font-family: 'Poppins', sans-serif;
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    text-align: center;
+    color: white;
 }
 
 .page {
     display: none;
     min-height: 100vh;
-    padding-top: 80px;
+    padding-top: 8vh;
 }
 
 .active {
@@ -25,14 +31,15 @@ body {
 
 .buttons {
     display: grid;
-    grid-template-columns: repeat(2, auto);
-    gap: 40px 80px;
-    justify-content: center;
-    margin-top: 250px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5vh 6vw;
+    justify-items: center;
+    margin-top: 18vh;
 }
 
 .btn img {
-    width: 260px;
+    width: min(28vw, 260px);
+    height: auto;
     cursor: pointer;
     transition: 0.2s;
 }
@@ -42,122 +49,105 @@ body {
 }
 
 .header {
-    font-size: 42px;
-    margin-bottom: 40px;
+    font-size: clamp(28px, 5vw, 42px);
+    margin-bottom: 5vh;
 }
 
 .modes {
     display: flex;
     justify-content: center;
-    gap: 40px;
+    gap: 5vw;
+    flex-wrap: wrap;
 }
 
 .modes img {
-    width: 280px;
+    width: min(25vw, 280px);
+    cursor: pointer;
 }
 
 .text-content {
     max-width: 800px;
     margin: auto;
-    font-size: 20px;
+    font-size: clamp(16px, 2.5vw, 20px);
     text-align: left;
     line-height: 1.6;
+    padding: 0 5vw;
 }
 
 .message {
-    font-size: 22px;
-    margin-top: 30px;
+    font-size: clamp(18px, 3vw, 22px);
+    margin-top: 3vh;
+}
+
+.back {
+    margin-top: 5vh;
+    cursor: pointer;
+    font-size: 18px;
 }
 </style>
 </head>
+
 <body>
 
-<!-- LOBBY -->
-<div id="lobby" class="page active"
-style="background-image: url('https://raw.githubusercontent.com/kurza1ka/koxland/main/t%C5%82o1.png');">
-
-<div class="buttons">
-    <div class="btn">
-        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/discord.png"
-        onclick="openDiscord()">
-    </div>
-
-    <div class="btn">
-        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/shop.png"
-        onclick="openShop()">
-    </div>
-
-    <div class="btn">
-        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/playnow.png"
-        onclick="copyIP()">
-    </div>
-
-    <div class="btn">
-        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/gamemodes.png"
-        onclick="openPage('modes')">
-    </div>
-
-    <div class="btn">
-        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/ranking.png"
-        onclick="openPage('ranking')">
-    </div>
-
-    <div class="btn">
-        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/rules.png"
-        onclick="openPage('rules')">
+<!-- ===== LOBBY ===== -->
+<div id="lobby" class="page active">
+    <div class="buttons">
+        <div class="btn"><img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/playnow.png" onclick="playNow()"></div>
+        <div class="btn"><img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/gamemodes.png" onclick="showPage('gamemodes')"></div>
+        <div class="btn"><img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/shop.png" onclick="openShop()"></div>
+        <div class="btn"><img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/discord.png" onclick="openDiscord()"></div>
+        <div class="btn"><img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/rules.png" onclick="showPage('rules')"></div>
+        <div class="btn"><img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/ranking.png" onclick="ranking()"></div>
     </div>
 </div>
 
-<div id="copyMessage" class="message"></div>
-
-</div>
-
-<!-- REGULAMIN -->
-<div id="rules" class="page"
-style="background-image: url('https://raw.githubusercontent.com/kurza1ka/koxland/main/pustet%C5%82o.png');">
-
-<div class="header">REGULAMIN</div>
-
-<div class="text-content">
-1 Zakaz niszczenia spawna gdy wystapi bład.<br><br>
-2 O problemach z serwerem zgłaszac sie do Własciciela gdyby własciciel nie odpisał to do admininistarcji.<br><br>
-3 Zakaz obrazania innych.<br><br>
+<!-- ===== REGULAMIN ===== -->
+<div id="rules" class="page">
+    <div class="header">Regulamin</div>
+    <div class="text-content">
+1 Zakaz niszczenia spawna gdy wystąpi błąd.<br><br>
+2 O problemach z serwerem zgłaszać się do właściciela, gdyby właściciel nie odpisał to do administracji.<br><br>
+3 Zakaz obrażania innych.<br><br>
 4 Zakaz spamowania na chacie.<br><br>
-5 Zakaz stawiania 20/100000000000 tnt i go wystadzania za to jest ban na ip.<br><br>
+5 Zakaz stawiania 20/100000000000 TNT i wysadzania, za to jest ban na IP.<br><br>
 6 Zakaz cheatów.<br><br>
-7 ZAKAZ XRAY
+7 ZAKAZ XRAY.
+    </div>
+    <div class="back" onclick="showPage('lobby')">Powrót</div>
 </div>
 
+<!-- ===== TRYBY ===== -->
+<div id="gamemodes" class="page">
+    <div class="header">Tryby gry</div>
+    <div class="modes">
+        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/survival.png">
+        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/boxpvp.png">
+        <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/duels.png">
+    </div>
+    <div class="back" onclick="showPage('lobby')">Powrót</div>
 </div>
 
-<!-- RANKING -->
-<div id="ranking" class="page"
-style="background-image: url('https://raw.githubusercontent.com/kurza1ka/koxland/main/pustet%C5%82o.png');">
-
-<div class="header">RANKING</div>
-<div class="message">Ta opcja jest niedostępna</div>
-
-</div>
-
-<!-- TRYBY GRY -->
-<div id="modes" class="page"
-style="background-image: url('https://raw.githubusercontent.com/kurza1ka/koxland/main/pustet%C5%82o.png');">
-
-<div class="header">TRYBY GRY</div>
-
-<div class="modes">
-    <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/boxpvp.png">
-    <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/duels.png">
-    <img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/survival.png">
-</div>
-
+<!-- ===== KOMUNIKAT ===== -->
+<div id="messagePage" class="page">
+    <div class="header" id="messageTitle"></div>
+    <div class="message" id="messageText"></div>
+    <div class="back" onclick="showPage('lobby')">Powrót</div>
 </div>
 
 <script>
 
-function openPage(pageId) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
+const tlo1 = "https://raw.githubusercontent.com/kurza1ka/koxland/main/t%C5%82o1.png";
+const pustetlo = "https://raw.githubusercontent.com/kurza1ka/koxland/main/pustet%C5%82o.png";
+
+function showPage(pageId) {
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+    document.getElementById(pageId).classList.add("active");
+
+    if(pageId === "lobby") {
+        document.body.style.backgroundImage = `url(${tlo1})`;
+    } else {
+        document.body.style.backgroundImage = `url(${pustetlo})`;
+    }
 }
 
 function openDiscord() {
@@ -168,13 +158,20 @@ function openShop() {
     window.open("https://panel.vishop.pl/", "_blank");
 }
 
-function copyIP() {
-    navigator.clipboard.writeText("koxland.pl");
-    document.getElementById("copyMessage").innerText = "Skopiowano IP do schowka";
-    setTimeout(() => {
-        document.getElementById("copyMessage").innerText = "";
-    }, 3000);
+function ranking() {
+    showPage("messagePage");
+    document.getElementById("messageTitle").innerText = "Ranking";
+    document.getElementById("messageText").innerText = "Ta opcja jest niedostępna.";
 }
+
+function playNow() {
+    navigator.clipboard.writeText("twoje.ip.serwera");
+    showPage("messagePage");
+    document.getElementById("messageTitle").innerText = "Graj teraz";
+    document.getElementById("messageText").innerText = "Skopiowano IP do schowka.";
+}
+
+showPage("lobby");
 
 </script>
 

@@ -29,16 +29,21 @@ body {
     display: block;
 }
 
-.buttons {
+/* ===== LOBBY PRZYCISKI NA STAŁEJ POZYCJI ===== */
+#lobby .buttons {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 5vh 6vw;
+    gap: 6vh 8vw;
     justify-items: center;
-    margin-top: 18vh;
 }
 
+/* ===== WIELKOŚĆ PRZYCISKÓW ===== */
 .btn img {
-    width: min(28vw, 260px);
+    width: min(40vw, 340px);
     height: auto;
     cursor: pointer;
     transition: 0.2s;
@@ -61,7 +66,7 @@ body {
 }
 
 .modes img {
-    width: min(25vw, 280px);
+    width: min(30vw, 300px);
     cursor: pointer;
 }
 
@@ -145,8 +150,10 @@ function showPage(pageId) {
 
     if(pageId === "lobby") {
         document.body.style.backgroundImage = `url(${tlo1})`;
+        document.body.style.overflow = "hidden";
     } else {
         document.body.style.backgroundImage = `url(${pustetlo})`;
+        document.body.style.overflow = "auto";
     }
 }
 

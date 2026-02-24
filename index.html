@@ -8,17 +8,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-body {
+html, body {
     margin: 0;
+    padding: 0;
+    height: 100%;
     font-family: 'Poppins', sans-serif;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
     text-align: center;
-    color: white;
 }
 
+/* STRONY */
 .page {
     display: none;
     min-height: 100vh;
@@ -29,21 +31,26 @@ body {
     display: block;
 }
 
-/* ===== LOBBY PRZYCISKI NA STAŁEJ POZYCJI ===== */
+/* LOBBY */
+#lobby {
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* PRZYCISKI */
 #lobby .buttons {
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 6vh 8vw;
-    justify-items: center;
+    grid-template-columns: repeat(2, auto);
+    gap: 7vh 10vw;
 }
 
-/* ===== WIELKOŚĆ PRZYCISKÓW ===== */
 .btn img {
-    width: min(40vw, 340px);
+    width: min(50vw, 420px);
     height: auto;
     cursor: pointer;
     transition: 0.2s;
@@ -53,21 +60,10 @@ body {
     transform: scale(1.05);
 }
 
+/* TEKST */
 .header {
     font-size: clamp(28px, 5vw, 42px);
     margin-bottom: 5vh;
-}
-
-.modes {
-    display: flex;
-    justify-content: center;
-    gap: 5vw;
-    flex-wrap: wrap;
-}
-
-.modes img {
-    width: min(30vw, 300px);
-    cursor: pointer;
 }
 
 .text-content {
@@ -77,6 +73,18 @@ body {
     text-align: left;
     line-height: 1.6;
     padding: 0 5vw;
+}
+
+.modes {
+    display: flex;
+    justify-content: center;
+    gap: 6vw;
+    flex-wrap: wrap;
+}
+
+.modes img {
+    width: min(32vw, 320px);
+    cursor: pointer;
 }
 
 .message {
@@ -94,7 +102,7 @@ body {
 
 <body>
 
-<!-- ===== LOBBY ===== -->
+<!-- LOBBY -->
 <div id="lobby" class="page active">
     <div class="buttons">
         <div class="btn"><img src="https://raw.githubusercontent.com/kurza1ka/koxland/main/playnow.png" onclick="playNow()"></div>
@@ -106,7 +114,7 @@ body {
     </div>
 </div>
 
-<!-- ===== REGULAMIN ===== -->
+<!-- REGULAMIN -->
 <div id="rules" class="page">
     <div class="header">Regulamin</div>
     <div class="text-content">
@@ -121,7 +129,7 @@ body {
     <div class="back" onclick="showPage('lobby')">Powrót</div>
 </div>
 
-<!-- ===== TRYBY ===== -->
+<!-- TRYBY -->
 <div id="gamemodes" class="page">
     <div class="header">Tryby gry</div>
     <div class="modes">
@@ -132,7 +140,7 @@ body {
     <div class="back" onclick="showPage('lobby')">Powrót</div>
 </div>
 
-<!-- ===== KOMUNIKAT ===== -->
+<!-- KOMUNIKAT -->
 <div id="messagePage" class="page">
     <div class="header" id="messageTitle"></div>
     <div class="message" id="messageText"></div>
@@ -150,9 +158,11 @@ function showPage(pageId) {
 
     if(pageId === "lobby") {
         document.body.style.backgroundImage = `url(${tlo1})`;
+        document.body.style.color = "white";
         document.body.style.overflow = "hidden";
     } else {
         document.body.style.backgroundImage = `url(${pustetlo})`;
+        document.body.style.color = "#111";
         document.body.style.overflow = "auto";
     }
 }
